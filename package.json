@@ -1,0 +1,12 @@
+{
+  "name": "backend_project",
+  "version": "1.0.0",
+  "description": "A Backend_project with production level setup",
+  "license": "ISC",
+  "author": "Prince Kumar Barnwal",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
