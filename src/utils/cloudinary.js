@@ -25,5 +25,5 @@ cloudinary.config({
     }
 
 
-
+    
 export { uploadOnCloudinary }
