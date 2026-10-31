@@ -17,7 +17,6 @@ import { ApiResponse } from "../utils/apiResponse.js";
 
 const registerUser = asyncHandler( async (req , res) => {
     const {fullName, email, username, password} = req.body
-    console.log(email);
     
     if(
         [fullName, email, username, password].some((field) => field?.trim() === "") //can be done with multiple if else
@@ -25,7 +24,7 @@ const registerUser = asyncHandler( async (req , res) => {
         throw new ApiError(400, "All fields are required")
     }
 
-    const existedUser = User.findOne({
+    const existedUser = await User.findOne({
         $or: [{ username }, { email }]
     })
 
@@ -34,7 +33,11 @@ const registerUser = asyncHandler( async (req , res) => {
     }
 
     const avatarLocalPath = req.files?.avatar[0]?.path;
-    const coverImageLocalPath = req.files?.coverImage[0]?.path
+    const coverImageLocalPath = req.files?.coverImage?.[0]?.path
+
+    // const coverImageLocalPath = req.files?.coverImage[0]?.path isme pehle hi check kr rha h req.files empty h ya ni 
+
+
 
     if(!avatarLocalPath){
         throw new ApiError(400, "Avatar file is required")
@@ -47,9 +50,9 @@ const registerUser = asyncHandler( async (req , res) => {
         throw new ApiError(400, "Avatar file is required")
     }
 
-    const user = User.create({
+    const user = await User.create({
         fullName,
-        avatar: avatar.url,
+        avatar: avatar.url, 
         coverImage: coverImage?.url || "",  // if coverImage is available then extract url if not then ok because it is not required
         email,
         password,
